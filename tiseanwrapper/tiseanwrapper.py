@@ -1,4 +1,4 @@
-""" Wrapper to TISEAN files.
+""" Wrapper to TISEAN binaries.
 """
 
 import tempfile
@@ -42,7 +42,7 @@ def gentmpfile():
                                text=True)
     return fhandle
 
-def tiseanio(command, data=None, *args):
+def tiseanio(data, command, *args):
     """ TISEAN input/output wrapper.
 
         Accept numpy array 'data' - run 'command' on this and return result.
