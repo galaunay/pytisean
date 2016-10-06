@@ -1,159 +1,56 @@
-""" Wrapper to TISEAN files.
+""" TISEAN Function wrappers
 """
 
-import tempfile
-import subprocess
-import os
-from time import strftime
+import sys
+from TiseanWrapper import tiseano, tiseanio
 import numpy as np
 
-__author__ = "Troels Bogeholm Mikkelsen"
-__copyright__ = "Troels Bogeholm Mikkelsen 2016"
+__author__ = "Gaby Launay"
+__copyright__ = "Gaby Launay 2017"
 __credits__ = "Rainer Hegger, Holger Kantz and Thomas Schreiber"
 __license__ = "MIT"
 __version__ = "0.1"
-__email__ = "bogeholm@nbi.ku.dk"
+__email__ = "gaby.launay@tutanota.com"
 __status__ = "Development"
 
-# Directory for temporary files
-DIRSTR = '/tmp/'
-# Prefix to identify these files
-PREFIXSTR = 'pytisean_temp_'
-# suffix - TISEAN likes .dat
-SUFFIXSTR = '.dat'
-
-# We will use the present time as a part of the temporary file name
-def strnow():
-    """ Return 'now' as a string with hyphenation
+def henon(pts_nmb, a=1.4, b=0.3, x0=0, y0=0, disc_transients=10000,
+          output_file=None, verbose=0):
     """
-    return strftime('%Y-%m-%d-%H-%M-%S')
+    Return a Henon map
 
-def genfilename():
-    """ Generate a file name.
+    Parameters
+    ----------
+    pts_nmb : integer
+        Number of points (0 for infinite)
+    a, b : numbers
+        Henon parameters (default to respectively 1.4 and 0.3)
+    x0, y0 : numbers
+        Initial position (default to 0, 0)
+    disc_transients : integer
+        Number of transients discarted (default to 10000)
+    output_file : string
+        Output fiel path.
+        If None, do not write a file, just return the map.
+    verbose : integer
+        Verbosity level (defaul to 0 for only fatal errors.
     """
-    return PREFIXSTR + strnow() + '_'
+    args = "-l{} -A{} -B{} -X{} -Y{} -x{} -V{}" \
+        .format(pts_nmb, a, b, x0, y0, disc_transients, verbose).split(" ")
+    if output_file is not None:
+        args += "-o{}".format(output_file)
+    res, msg = tiseano('henon', *args)
+    print(msg)
+    return res
 
-def gentmpfile():
-    """ Generate temporary file and return file handle.
-    """
-    fhandle = tempfile.mkstemp(prefix=genfilename(),
-                               suffix=SUFFIXSTR,
-                               dir=DIRSTR,
-                               text=True)
-    return fhandle
+if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+    # Generate 5000 iterates of the henon map
+    xy = henon(50000, a=1.35)
 
-def tiseanio(command, *args, data=None, silent=False):
-    """ TISEAN input/output wrapper.
-
-        Accept numpy array 'data' - run 'command' on this and return result.
-        This function is meant as a wrapper around the TISEAN package.
-    """
-    # Return values if 'command' (or something else) fails
-    res = None
-    err_string = 'Something failed!'
-
-    # If user specifies '-o' the save routine below will fail.
-    if '-o' in args:
-        raise ValueError('User is not allowed to specify an output file.')
-
-    # Handles to temporary files
-    tf_in = gentmpfile()
-    tf_out = gentmpfile()
-    # Full names
-    fullname_in = tf_in[1]
-    fullname_out = tf_out[1]
-
-    # If no further args are specified, run this
-    if not args:
-        commandargs = [command, '-o', fullname_out]
-    # Otherwise, we concatenate the args and command
-    else:
-        # User can specify float args - we convert
-        arglist = [str(a) for a in args]
-        commandargs = [command, fullname_in] + arglist + ['-o', fullname_out]
-
-    print(commandargs)
-
-    # We will clean up irregardless of following success.
-    try:
-        # Save the input to the temporary 'in' file
-        np.savetxt(fullname_in, data, delimiter='\t')
-
-        # Here we call TISEAN (or something else?)
-        subp = subprocess.Popen(commandargs,
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
-
-        # Communicate with the subprocess
-        (_, err_bytes) = subp.communicate()
-        # Read the temporary 'out' file
-        res = np.loadtxt(fullname_out)#, delimiter='\t')
-        # We will read this
-        err_string = err_bytes.decode('utf-8')
-
-    # Cleanup
-    finally:
-        os.remove(fullname_in)
-        os.remove(fullname_out)
-
-    if not silent:
-        print(err_string)
-
-    # We assume that the user wants the (error) message as well.
-    return res, err_string
-
-
-def tiseano(command, *args, silent=False):
-    """ TISEAN output wrapper.
-
-        Run 'command' and return result.
-
-        This function is meant as a wrapper around the TISEAN package.
-    """
-    # Return values if 'command' (or something else) fails
-    res = None
-    err_string = 'Something failed!'
-
-    # Check for user specified args
-    if '-o' in args:
-        raise ValueError('User is not allowed to specify an output file.')
-
-    # Handle to temporary file
-    tf_out = gentmpfile()
-    # Full names
-    fullname_out = tf_out[1]
-
-    # If no further args are specified, run this
-    if not args:
-        commandargs = [command, '-o', fullname_out]
-    # Otherwise, we concatenate the args and command
-    else:
-        # User can specify float args - we convert
-        arglist = [str(a) for a in args]
-        commandargs = [command] + arglist + ['-o', fullname_out]
-
-    # We will clean up irregardless of following success.
-    try:
-        # Here we call TISEAN (or something else?)
-        subp = subprocess.Popen(commandargs,
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE,
-                                shell=False,
-                                env={"PATH": "/home/glaunay/.local/bin"})
-
-        # Communicate with the subprocess
-        (_, err_bytes) = subp.communicate()
-        # Read the temporary 'out' file
-        res = np.loadtxt(fullname_out)
-        # We will read this
-        err_string = err_bytes.decode('utf-8')
-
-    # Cleanup
-    finally:
-        os.remove(fullname_out)
-
-    if not silent:
-        print(err_string)
-
-    # We assume that the user wants the (error) message as well.
-    return res, err_string
+    # Plot and prettyfi
+    fig1, ax1 = plt.subplots(1, 1)
+    ax1.scatter(xy[:, 0], xy[:, 1], color='k', s=0.1)
+    plt.title('The Henon map')
+    plt.xlabel(r'$x$', fontsize=16)
+    plt.ylabel(r'$y$', fontsize=16)
+    plt.show()
