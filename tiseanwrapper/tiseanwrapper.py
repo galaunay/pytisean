@@ -39,6 +39,24 @@ def gentmpfile():
                                text=True)
     return fhandle
 
+def is_exec(command):
+    """
+    Test if a command is executable
+    """
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+    fpath, fname = os.path.split(command)
+    if fpath:
+        if is_exe(command):
+            return True
+    else:
+        for path in os.environ["PATH"].split(os.pathsep):
+            path = path.strip('"')
+            exe_file = os.path.join(path, command)
+            if is_exe(exe_file):
+                return True
+    return False
+
 def tisean(command, args, input_data=None, output_file=None):
     """
     Run a tisean command.
@@ -81,6 +99,9 @@ def tisean(command, args, input_data=None, output_file=None):
         tf_out = gentmpfile()
         fullname_out = tf_out[1]
         is_output_file = False
+    # check if command exist
+    if not is_exec(command):
+        raise Exception("'{}' command not on path".format(command))
     # add paths to args
     args += ["-o {}".format(fullname_out)]
     if is_input_data:
@@ -104,6 +125,7 @@ def tisean(command, args, input_data=None, output_file=None):
             res = np.loadtxt(fullname_out)
     # Cleanup
     finally:
+        pass
         if not is_input_file and is_input_data:
             os.remove(fullname_in)
         if not is_output_file:

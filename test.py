@@ -6,9 +6,9 @@ import Pytisean.embedding as pte
 import numpy as np
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-    # Generate 5000 iterates of the henon map
-    xy = ptg.henon(5000)
+    # import matplotlib.pyplot as plt
+    # # Generate 5000 iterates of the henon map
+    # xy = ptg.henon(5000)
 
     # # Plot and prettyfi
     # fig1, ax1 = plt.subplots(1, 1)
@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
 
     # TEST POPEN
-    xy = np.random.random((10, 10))
+    xy = np.random.random((10, 2))
     import Pytisean.tiseanwrapper as ptw
     res = ptw.tisean("delay", args=['-m2', '-d1', '-V0'], input_data=xy)
     print(res)
