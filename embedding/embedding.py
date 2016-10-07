@@ -46,26 +46,18 @@ def delay(data, dimension=2, vector_format=None, vector_delay=1, delays=None,
         Successive iterations of the Henon map.
     """
     # prepare arguments
-    args = "-m{} -d{} -V{}" \
-        .format(dimension, vector_delay, verbose).split(" ")
+    args = "-m{} -d{} -x{} -M{} -c{} -V{}" \
+           .format(dimension, vector_delay, ignored_row, ignored_col,
+                   col_to_read, verbose)
     if vector_format is not None:
         args += "-F{}".format(vector_format)
     if delays is not None:
         args += "-D{}".format(delays)
-    if output_file is not None:
-        args += "-o{}".format(output_file)
-    if isinstance(data, str):
-        if nmb_data_to_use is not None:
-            args += "-l{}".format(nmb_data_to_use)
-        args += "-x{}".format(ignored_row)
-        args += "-M{}".format(ignored_col)
-        args += "-c{}".format(col_to_read)
+    if nmb_data_to_use is not None:
+        args += "-l{}".format(nmb_data_to_use)
+    args = args.split(" ")
     # run command
-    if isinstance(data, str):
-        res, msg = tiseano('delay', *args)
-    else:
-        res, msg = tiseanio(data, 'delay', *args)
-
+    res, msg = tisean('delay', args, input_data=data, output_file=output_file)
     # return
     print(msg)
     if not output_file:

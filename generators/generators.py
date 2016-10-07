@@ -35,7 +35,7 @@ def henon(pts_nmb, a=1.4, b=0.3, x0=0, y0=0, disc_transients=10000,
         Output fiel path.
         If None, do not write a file, just return the map.
     verbose : integer
-        Verbosity level (defaul to 0 for only fatal errors.
+        Verbosity level (defaul to 0 for only fatal errors).
 
     Returns
     -------
@@ -44,12 +44,10 @@ def henon(pts_nmb, a=1.4, b=0.3, x0=0, y0=0, disc_transients=10000,
     """
     # prepare args
     args = "-l{} -A{} -B{} -X{} -Y{} -x{} -V{}" \
-        .format(pts_nmb, a, b, x0, y0, disc_transients, verbose).split(" ")
-    if output_file is not None:
-        args += "-o{}".format(output_file)
+        .format(pts_nmb, a, b, x0, y0, disc_transients, verbose)
+    args = args.split(" ")
     # run command and print messages
-    res, msg = tisean('henon', args)
-    print(msg)
+    res, msg = tisean('henon', args, output_file=output_file)
     # return
     if not output_file:
         return res
@@ -88,12 +86,10 @@ def ikeda(pts_nmb, a=0.4, b=6.0, c=0.9, Re0=0, Im0=0, disc_transients=10000,
     """
     # prepare arguments
     args = "-l{} -A{} -B{} -C{} -R{} -I{} -x{} -V{}" \
-        .format(pts_nmb, a, b, c, Re0, Im0, disc_transients, verbose).split(" ")
-    if output_file is not None:
-        args += "-o{}".format(output_file)
+           .format(pts_nmb, a, b, c, Re0, Im0, disc_transients, verbose)
+    args = args.split(" ")
     # run command and print messages
-    res, msg = tisean('ikeda', *args)
-    print(msg)
+    res, msg = tisean('ikeda', args, output_file=output_file)
     # return
     if not output_file:
         return res
@@ -132,12 +128,10 @@ def lorenz(pts_nmb, freq=100, dyn_noise=0, rho=28., sigma=10., beta=8./3.,
     # prepare arguments
     args = "-l{} -f{} -r{} -R{} -S{} -B{} -x{} -V{}" \
         .format(pts_nmb, freq, dyn_noise, rho, sigma, beta,
-                disc_transients, verbose).split(" ")
-    if output_file is not None:
-        args += "-o{}".format(output_file)
+                disc_transients, verbose)
+    args = args.split(" ")
     # run command and print messages
-    res, msg = tisean('lorenz', *args)
-    print(msg)
+    res, msg = tisean('lorenz', args, output_file=output_file)
     # return
     if not output_file:
         return res
@@ -164,17 +158,6 @@ def arrun(coefficients, pts_nmb, order=None, seed=0, disc_transients=10000,
         Seed for random numbers
     disc_transients : integer
         Number of transients discarted (default to 10000)
-    nmb_data_to_use : integer
-        Number of data points to use (default to everything).
-    ignored_row : integer
-        Number of file rows to ignore if 'time_serie' is a file path
-        (Default to 0).
-    ignored_col : integer
-        Number of file columns to ignore if 'time_serie' is a file path
-        (Default to 1).
-    col_to_read : integer
-        Number of columns to be read if 'time_serie' is a file path
-        (Default to 1).
     output_file : string
         Output fiel path.
         If None, do not write a file, just return the map.
@@ -186,29 +169,15 @@ def arrun(coefficients, pts_nmb, order=None, seed=0, disc_transients=10000,
     x : list of [x] tuples
         Successive iterations of the autoregressive model.
     """
-    raise Exception('Not working yet')
-    # Pb with the input data
-
     # prepare arguments
-    args = "-l{} -I{} -R{} -S{} -B{} -x{} -V{}" \
-        .format(pts_nmb, order, seed, disc_transients, verbose).split(" ")
+    args = "-l{} -I{} -x{} -V{}" \
+        .format(pts_nmb, seed, disc_transients, verbose)
     if order is not None:
         args += "-p{}".format(order)
-    if output_file is not None:
-        args += "-o{}".format(output_file)
-    if isinstance(coefficients, str):
-        if nmb_data_to_use is not None:
-            args += "-l{}".format(nmb_data_to_use)
-        args += "-x{}".format(ignored_row)
-        args += "-M{}".format(ignored_col)
-        args += "-c{}".format(col_to_read)
+    args = args.split(" ")
     # run command and print messages
-    if isinstance(coefficients, str):
-        args += coefficients
-        res, msg = tisean('ar-run', *args)
-    else:
-        res, msg = tisean(coefficients, 'ar-run', *args)
-    print(msg)
+    res, msg = tisean('ar-run', args, input_data=coefficients,
+                      output_file=output_file)
     # return
     if not output_file:
         return res
@@ -216,7 +185,7 @@ def arrun(coefficients, pts_nmb, order=None, seed=0, disc_transients=10000,
 
 def makenoise(time_serie, noise_level=5, abs_noise_level=None,
               gaussian=None, seed=0, nmb_data_to_use=None, ignored_row=0,
-              ignored_col=1, col_to_read=1, output_file=None, verbose=0):
+              ignored_col=0, col_to_read=1, output_file=None, verbose=0):
     """
     Add noise to a time series.
 
@@ -235,19 +204,19 @@ def makenoise(time_serie, noise_level=5, abs_noise_level=None,
     nmb_data_to_use : integer
         Number of data points to use (default to everything).
     ignored_row : integer
-        Number of file rows to ignore if 'time_serie' is a file path
+        Number of file rows to ignore.
         (Default to 0).
     ignored_col : integer
-        Number of file columns to ignore if 'time_serie' is a file path
-        (Default to 1).
+        Number of file columns to ignore.
+        (Default to 0).
     col_to_read : integer
-        Number of columns to be read if 'time_serie' is a file path
+        Number of columns to be read.
         (Default to 1).
     output_file : string
         Output file path.
         If None, do not write a file, and return the map.
     verbose : integer
-        Verbosity level (defaul to 0 for only fatal errors.
+        Verbosity level (default to 0 for only fatal errors.
 
     Returns
     -------
@@ -255,27 +224,19 @@ def makenoise(time_serie, noise_level=5, abs_noise_level=None,
         Noisy time serie.
     """
     # prepare arguments
-    args = "-%{} -I{} -V{}" \
-        .format(noise_level, seed, verbose).split(" ")
-    if output_file is not None:
-        args += "-o{}".format(output_file)
+    args = "-%{} -I{} -V{} -x{} -M{} -c{}" \
+           .format(noise_level, seed, verbose, ignored_row, ignored_col,
+                   col_to_read)
     if abs_noise_level is not None:
         args += "-r{}".format(abs_noise_level)
     if gaussian:
         args += "-g"
-    if isinstance(time_serie, str):
-        if nmb_data_to_use is not None:
-            args += "-l{}".format(nmb_data_to_use)
-        args += "-x{}".format(ignored_row)
-        args += "-M{}".format(ignored_col)
-        args += "-c{}".format(col_to_read)
+    if nmb_data_to_use is not None:
+        args += "-l{}".format(nmb_data_to_use)
+    args = args.split(" ")
     # run command
-    if isinstance(time_serie, str):
-        args += time_serie
-        res, msg = tisean('makenoise', *args)
-    else:
-        res, msg = tisean(time_serie, 'makenoise', *args)
+    res, msg = tisean('makenoise', args, input_data=time_serie,
+                      output_file=output_file)
     # return
-    print(msg)
     if not output_file:
         return res

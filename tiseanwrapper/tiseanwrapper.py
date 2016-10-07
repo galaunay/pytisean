@@ -3,7 +3,6 @@
 
 import tempfile
 import subprocess
-import shlex
 import os
 from time import strftime
 import numpy as np
@@ -16,32 +15,23 @@ __version__ = "0.1"
 __email__ = "bogeholm@nbi.ku.dk"
 __status__ = "Development"
 
-# Directory for temporary files
-DIRSTR = r'/tmp/pytisean/'
-# Prefix to identify these files
-PREFIXSTR = 'pytisean_temp_'
-# suffix - TISEAN likes .dat
-SUFFIXSTR = '.dat'
-ENV = {"PATH": "/home/glaunay/.local/bin"}
+# For temporary files
+TMPDIR = r'/tmp/pytisean/'
+TMPPREFIX = 'pytisean_temp_'
 
-# We will use the present time as a part of the temporary file name
-def genfilename():
-    """ Generate a file name.
-    """
-    return PREFIXSTR + strftime('%Y-%m-%d-%H-%M-%S') + '_'
 
 def gentmpfile():
     """ Generate temporary file and return file handle.
     """
-    fhandle = tempfile.mkstemp(prefix=genfilename(),
-                               suffix=SUFFIXSTR,
-                               dir=DIRSTR,
+    fhandle = tempfile.mkstemp(prefix=TMPPREFIX,
+                               dir=TMPDIR,
                                text=True)
-    return fhandle
+    return fhandle[1]
+
 
 def is_exec(command):
     """
-    Test if a command is executable
+    Test if a command is executable.
     """
     def is_exe(fpath):
         return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
@@ -56,6 +46,7 @@ def is_exec(command):
             if is_exe(exe_file):
                 return True
     return False
+
 
 def tisean(command, args, input_data=None, output_file=None):
     """
@@ -85,8 +76,7 @@ def tisean(command, args, input_data=None, output_file=None):
             fullname_in = input_data
             is_input_file = True
         else:
-            tf_in = gentmpfile()
-            fullname_in = tf_in[1]
+            fullname_in = gentmpfile()
             is_input_file = False
             np.savetxt(fullname_in, input_data, delimiter='\t')
     else:
@@ -96,95 +86,39 @@ def tisean(command, args, input_data=None, output_file=None):
         fullname_out = output_file
         is_output_file = True
     else:
-        tf_out = gentmpfile()
-        fullname_out = tf_out[1]
+        fullname_out = gentmpfile()
         is_output_file = False
     # check if command exist
     if not is_exec(command):
         raise Exception("'{}' command not on path".format(command))
     # add paths to args
-    args += ["-o {}".format(fullname_out)]
+    args += ["-o", "{}".format(fullname_out)]
     if is_input_data:
         args += [fullname_in]
     # Need cleanup temporary files even if the command fails
     try:
-        # Here we call TISEAN (or something else?)
-        print(args)
-        print(command)
-        print(ENV)
-        subp = subprocess.Popen(args,
-                                executable=command,
-                                env=ENV,
+        # Call the wanted command
+        subp = subprocess.Popen([command] + args,
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)
         # Communicate with the subprocess
-        (_, err_bytes) = subp.communicate()
+        (out_bytes, err_bytes) = subp.communicate()
+        # Check if tisean error occured
         err_string = err_bytes.decode('utf-8')
+        if len(err_string) != 0:
+            raise Exception("\n=== TISEAN ERROR ===\n"
+                            + "=== Launched command:\n    {}\n"
+                            .format(" ".join([command] + args))
+                            + "=== Tisean said: \n    " + err_string)
         # Read the temporary 'out' file
         if not is_output_file:
             res = np.loadtxt(fullname_out)
     # Cleanup
     finally:
         pass
-        if not is_input_file and is_input_data:
-            os.remove(fullname_in)
-        if not is_output_file:
-            os.remove(fullname_out)
-        print(err_string)
-    # We assume that the user wants the (error) message as well.
+        # if not is_input_file and is_input_data:
+        #     os.remove(fullname_in)
+        # if not is_output_file:
+        #     os.remove(fullname_out)
+    # Return
     return res, err_string
-
-
-# def tiseano(command, *args):
-#     """ TISEAN output wrapper.
-
-#         Run 'command' and return result.
-
-#         This function is meant as a wrapper around the TISEAN package.
-#     """
-#     # Return values if 'command' (or something else) fails
-#     res = None
-#     err_string = 'Something failed!'
-
-#     # Check for user specified args
-#     if '-o' in args:
-#         raise ValueError('User is not allowed to specify an output file.')
-
-#     # Handle to temporary file
-#     tf_out = gentmpfile()
-#     # Full names
-#     fullname_out = tf_out[1]
-
-#     # If no further args are specified, run this
-#     if not args:
-#         commandargs = [command, '-o', fullname_out]
-#     # Otherwise, we concatenate the args and command
-#     else:
-#         # User can specify float args - we convert
-#         arglist = [str(a) for a in args]
-#         commandargs = [command] + arglist + ['-o', fullname_out]
-
-#     # We will clean up irregardless of following success.
-#     try:
-#         # Here we call TISEAN (or something else?)
-#         subp = subprocess.Popen(commandargs,
-#                                 stdout=subprocess.PIPE,
-#                                 stderr=subprocess.PIPE,
-#                                 shell=False,
-#                                 env={"PATH": "/home/glaunay/.local/bin"})
-
-#         # Communicate with the subprocess
-#         (_, err_bytes) = subp.communicate()
-#         # Read the temporary 'out' file
-#         res = np.loadtxt(fullname_out)
-#         # We will read this
-#         err_string = err_bytes.decode('utf-8')
-
-#     # Cleanup
-#     finally:
-#         os.remove(fullname_out)
-
-#     print(err_string)
-
-#     # We assume that the user wants the (error) message as well.
-#     return res, err_string
