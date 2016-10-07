@@ -1,2 +1,2 @@
 
-from generators import henon, lorenz, ikeda, arrun, makenoise
+from .generators import henon, lorenz, ikeda, arrun, makenoise

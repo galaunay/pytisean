@@ -1,7 +1,7 @@
 """ TISEAN generators wrappers
 """
 
-from ..tiseanwrapper import tiseano, tiseanio
+from ..tiseanwrapper import tisean
 
 __author__ = "Gaby Launay"
 __copyright__ = "Gaby Launay 2017"
@@ -48,7 +48,7 @@ def henon(pts_nmb, a=1.4, b=0.3, x0=0, y0=0, disc_transients=10000,
     if output_file is not None:
         args += "-o{}".format(output_file)
     # run command and print messages
-    res, msg = tiseano('henon', *args)
+    res, msg = tisean('henon', args)
     print(msg)
     # return
     if not output_file:
@@ -92,7 +92,7 @@ def ikeda(pts_nmb, a=0.4, b=6.0, c=0.9, Re0=0, Im0=0, disc_transients=10000,
     if output_file is not None:
         args += "-o{}".format(output_file)
     # run command and print messages
-    res, msg = tiseano('ikeda', *args)
+    res, msg = tisean('ikeda', *args)
     print(msg)
     # return
     if not output_file:
@@ -136,7 +136,7 @@ def lorenz(pts_nmb, freq=100, dyn_noise=0, rho=28., sigma=10., beta=8./3.,
     if output_file is not None:
         args += "-o{}".format(output_file)
     # run command and print messages
-    res, msg = tiseano('lorenz', *args)
+    res, msg = tisean('lorenz', *args)
     print(msg)
     # return
     if not output_file:
@@ -205,9 +205,9 @@ def arrun(coefficients, pts_nmb, order=None, seed=0, disc_transients=10000,
     # run command and print messages
     if isinstance(coefficients, str):
         args += coefficients
-        res, msg = tiseano('ar-run', *args)
+        res, msg = tisean('ar-run', *args)
     else:
-        res, msg = tiseanio(coefficients, 'ar-run', *args)
+        res, msg = tisean(coefficients, 'ar-run', *args)
     print(msg)
     # return
     if not output_file:
@@ -272,9 +272,9 @@ def makenoise(time_serie, noise_level=5, abs_noise_level=None,
     # run command
     if isinstance(time_serie, str):
         args += time_serie
-        res, msg = tiseano('makenoise', *args)
+        res, msg = tisean('makenoise', *args)
     else:
-        res, msg = tiseanio(time_serie, 'makenoise', *args)
+        res, msg = tisean(time_serie, 'makenoise', *args)
     # return
     print(msg)
     if not output_file:

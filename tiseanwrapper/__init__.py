@@ -1,1 +1,1 @@
-from tiseanwrapper import tiseanio, tiseano
+from .tiseanwrapper import tisean
