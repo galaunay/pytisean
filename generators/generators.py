@@ -228,11 +228,11 @@ def makenoise(time_serie, noise_level=5, abs_noise_level=None,
            .format(noise_level, seed, verbose, ignored_row, ignored_col,
                    col_to_read)
     if abs_noise_level is not None:
-        args += "-r{}".format(abs_noise_level)
+        args += " -r{}".format(abs_noise_level)
     if gaussian:
-        args += "-g"
+        args += " -g"
     if nmb_data_to_use is not None:
-        args += "-l{}".format(nmb_data_to_use)
+        args += " -l{}".format(nmb_data_to_use)
     args = args.split(" ")
     # run command
     res, msg = tisean('makenoise', args, input_data=time_serie,

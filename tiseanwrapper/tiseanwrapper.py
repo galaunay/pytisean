@@ -18,7 +18,8 @@ __status__ = "Development"
 # For temporary files
 TMPDIR = r'/tmp/pytisean/'
 TMPPREFIX = 'pytisean_temp_'
-
+if not os.path.isdir(TMPDIR):
+    os.makedirs(TMPDIR)
 
 def gentmpfile():
     """ Generate temporary file and return file handle.
@@ -103,6 +104,10 @@ def tisean(command, args, input_data=None, output_file=None):
                                 stderr=subprocess.PIPE)
         # Communicate with the subprocess
         (out_bytes, err_bytes) = subp.communicate()
+        try:
+            subp.kill()
+        except OSError:
+            pass
         # Check if tisean error occured
         err_string = err_bytes.decode('utf-8')
         if len(err_string) != 0:
@@ -116,9 +121,9 @@ def tisean(command, args, input_data=None, output_file=None):
     # Cleanup
     finally:
         pass
-        # if not is_input_file and is_input_data:
-        #     os.remove(fullname_in)
-        # if not is_output_file:
-        #     os.remove(fullname_out)
+        if not is_input_file and is_input_data:
+            os.remove(fullname_in)
+        if not is_output_file:
+            os.remove(fullname_out)
     # Return
     return res, err_string

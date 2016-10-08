@@ -50,11 +50,11 @@ def delay(data, dimension=2, vector_format=None, vector_delay=1, delays=None,
            .format(dimension, vector_delay, ignored_row, ignored_col,
                    col_to_read, verbose)
     if vector_format is not None:
-        args += "-F{}".format(vector_format)
+        args += " -F{}".format(vector_format)
     if delays is not None:
-        args += "-D{}".format(delays)
+        args += " -D{}".format(delays)
     if nmb_data_to_use is not None:
-        args += "-l{}".format(nmb_data_to_use)
+        args += " -l{}".format(nmb_data_to_use)
     args = args.split(" ")
     # run command
     res, msg = tisean('delay', args, input_data=data, output_file=output_file)
