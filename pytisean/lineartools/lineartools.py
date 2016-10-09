@@ -3,8 +3,6 @@ TISEAN linear tools wrapper
 """
 
 from ..tiseanwrapper import tisean
-import os
-import numpy as np
 
 __author__ = "Gaby Launay"
 __copyright__ = "Gaby Launay 2017"
