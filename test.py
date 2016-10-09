@@ -1,6 +1,6 @@
 import sys
 import pdb
-sys.path.append(r"/home/muahah/dev/")
+sys.path.append(r"/home/muahah/Dev/")
 import pytisean.generators as ptg
 import pytisean.embedding as pte
 import pytisean.utilities as ptu
@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     # Generate hennon map
     xy = ptg.henon(20000, a=1.9999, b=0.0)
-    # xy = ptg.makenoise(xy, noise_level=1, gaussian=True)
+    # xy = ptg.makenoise(xy, noise_level=2, gaussian=True)
 
     # # Get dealy embedding map
     # delay = pte.delay(xy, dimension=2, vector_delay=1)
@@ -63,8 +63,14 @@ if __name__ == "__main__":
     # plt.show(block=False)
 
     # get lyapunov exponents
-    it, lyap, nmb_pts = ptl.lyap_k(xy)
-    plt.plot(it, lyap, color='k', marker='o')
+    it1, lyap_k, nmb_pts = ptl.lyap_k(xy, nmb_it=20, output_file=r"/tmp/pytisean/test.dat")
+    it2, lyap_r = ptl.lyap_r(xy, nmb_it=20)
+    x = np.linspace(0, 10, 100)
+    y = x*np.log(2.) - 8
+    plt.figure()
+    plt.plot(it1, lyap_k, color='k', marker='o', ls='none', ms=3)
+    plt.plot(it2, lyap_r, color='r', marker='o', ls='none', ms=3)
+    plt.plot(x, y, color='k')
     plt.show(block=False)
 
 

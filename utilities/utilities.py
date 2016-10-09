@@ -2,6 +2,8 @@
 """
 
 from ..tiseanwrapper import tisean
+import os
+import numpy as np
 
 __author__ = "Gaby Launay"
 __copyright__ = "Gaby Launay 2017"
@@ -53,3 +55,38 @@ def histogram(data, bins=50, nmb_data_to_use=None, ignored_row=0,
     print(msg)
     if not output_file:
         return res
+
+
+def import_data_file(path):
+    """
+    Import a data file produced by tisean.
+
+    Parameters
+    ----------
+    path : string
+        File path.
+
+    Returns
+    -------
+    heading : string
+        Heading of the data file (if exist).
+    data : array
+        Data as numpy array.
+    """
+    if not os.path.isfile(path):
+        raise ValueError("No file '{}'".format(path))
+    # load data
+    data = np.loadtxt(path, dtype=float, comments='#')
+    # load headings
+    f = open(path, 'r')
+    msg = ""
+    while True:
+        line = f.readline()
+        if len(line) != 0:
+            if line[0] == '#':
+                msg += line
+            else:
+                break
+    f.close()
+    # return
+    return msg, data
