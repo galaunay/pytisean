@@ -1,6 +1,7 @@
 import pdb
 import sys
-sys.path.append(r"/home/muahah/Dev/")
+import os
+sys.path.append(r"/home/muahah/Dev/pytisean")
 import pytisean.generators as ptg
 import pytisean.embedding as pte
 import pytisean.utilities as ptu
@@ -10,6 +11,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Import data
+try:
+    os.chdir(os.path.dirname(__file__))
+except NameError:
+    pass
 msg, data = ptu.import_data_file("amplitude.dat")
 print(msg)
 

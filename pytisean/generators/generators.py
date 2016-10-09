@@ -49,6 +49,7 @@ def henon(pts_nmb, a=1.4, b=0.3, x0=0, y0=0, disc_transients=10000,
     # run command and print messages
     res, msg = tisean('henon', args, output_file=output_file)
     # return
+    print(msg)
     if not output_file:
         return res
 
@@ -91,6 +92,7 @@ def ikeda(pts_nmb, a=0.4, b=6.0, c=0.9, Re0=0, Im0=0, disc_transients=10000,
     # run command and print messages
     res, msg = tisean('ikeda', args, output_file=output_file)
     # return
+    print(msg)
     if not output_file:
         return res
 
@@ -133,13 +135,13 @@ def lorenz(pts_nmb, freq=100, dyn_noise=0, rho=28., sigma=10., beta=8./3.,
     # run command and print messages
     res, msg = tisean('lorenz', args, output_file=output_file)
     # return
+    print(msg)
     if not output_file:
         return res
 
 
 def arrun(coefficients, pts_nmb, order=None, seed=0, disc_transients=10000,
-          nmb_data_to_use=None, ignored_row=0, ignored_col=1, col_to_read=1,
-          output_file=None, verbose=0):
+          nmb_data_to_use=None, output_file=None, verbose=0):
     """
     Run an autoregressive model from given ai coefficients.
 
@@ -179,6 +181,7 @@ def arrun(coefficients, pts_nmb, order=None, seed=0, disc_transients=10000,
     res, msg = tisean('ar-run', args, input_data=coefficients,
                       output_file=output_file)
     # return
+    print(msg)
     if not output_file:
         return res
 
@@ -238,5 +241,6 @@ def makenoise(time_serie, noise_level=5, abs_noise_level=None,
     res, msg = tisean('makenoise', args, input_data=time_serie,
                       output_file=output_file)
     # return
+    print(msg)
     if not output_file:
         return res

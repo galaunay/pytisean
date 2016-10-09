@@ -4,7 +4,6 @@
 import tempfile
 import subprocess
 import os
-from time import strftime
 import numpy as np
 
 __author__ = "Troels Bogeholm Mikkelsen"
@@ -36,7 +35,7 @@ def is_exec(command):
     """
     def is_exe(fpath):
         return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
-    fpath, fname = os.path.split(command)
+    fpath, _ = os.path.split(command)
     if fpath:
         if is_exe(command):
             return True
@@ -103,7 +102,7 @@ def tisean(command, args, input_data=None, output_file=None):
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)
         # Communicate with the subprocess
-        (out_bytes, err_bytes) = subp.communicate()
+        (_, err_bytes) = subp.communicate()
         try:
             subp.kill()
         except OSError:
@@ -120,7 +119,6 @@ def tisean(command, args, input_data=None, output_file=None):
             res = np.loadtxt(fullname_out)
     # Cleanup
     finally:
-        pass
         if not is_input_file and is_input_data:
             os.remove(fullname_in)
         if not is_output_file:

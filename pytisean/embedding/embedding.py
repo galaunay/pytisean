@@ -3,6 +3,7 @@
 
 from ..tiseanwrapper import tisean
 
+
 def delay(data, dimension=2, vector_format=None, vector_delay=1, delays=None,
           nmb_data_to_use=None, ignored_row=0, ignored_col=1, col_to_read=1,
           output_file=None, verbose=0):
