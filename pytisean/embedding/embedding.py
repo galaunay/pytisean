@@ -71,7 +71,9 @@ def delay(data, dimension=2, vector_format=None, vector_delay=1, delays=None,
 def mutual(data, maximum_delay=20, box_nmb=16, nmb_data_to_use=None,
            ignored_row=0, col_to_read=1, output_file=None, verbose=0):
     """
-    Estimates the time delayed mutual information of the data. It is the simplest possible realization. It uses a fixed mesh of boxes.
+    Estimates the time delayed mutual information of the data.
+
+    It is the simplest possible realization. It uses a fixed mesh of boxes.
     No finite sample corrections are implemented so far.
 
     Parameters
@@ -108,7 +110,7 @@ def mutual(data, maximum_delay=20, box_nmb=16, nmb_data_to_use=None,
     # prepare arguments
     args = "-b{} -D{} -x{} -c{} -V{}" \
            .format(box_nmb, maximum_delay, ignored_row, col_to_read, verbose)
-    if vector_format is not None:
+    if nmb_data_to_use is not None:
         args += "-l{}".format(nmb_data_to_use)
     args = args.split(" ")
     # run command

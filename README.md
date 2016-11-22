@@ -27,8 +27,9 @@ Available commands are for the moment:
 - Utilities (1/5):
   - `histogram`
 - Stationarity (0/3):
-- Embedding (1/7):
+- Embedding (2/7):
   - `delay`
+  - `mutual`
 - Prediction (0/11):
 - Noise reduction (0/4):
 - Dimension and entropy (0/7):
