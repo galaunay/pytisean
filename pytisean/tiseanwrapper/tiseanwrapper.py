@@ -1,18 +1,13 @@
-""" Wrapper to TISEAN binaries.
-"""
+# -*- coding: utf-8 -*-
+#!/usr/env python3
+
+""" Wrapper to TISEAN binaries. """
 
 import tempfile
 import subprocess
 import os
 import numpy as np
 
-__author__ = "Troels Bogeholm Mikkelsen"
-__copyright__ = "Troels Bogeholm Mikkelsen 2016"
-__credits__ = "Rainer Hegger, Holger Kantz and Thomas Schreiber"
-__license__ = "MIT"
-__version__ = "0.1"
-__email__ = "bogeholm@nbi.ku.dk"
-__status__ = "Development"
 
 # For temporary files
 TMPDIR = r'/tmp/pytisean/'
@@ -21,8 +16,9 @@ if not os.path.isdir(TMPDIR):
     os.makedirs(TMPDIR)
 
 def gentmpfile():
-    """ Generate temporary file and return file handle.
-    """
+    """Generate temporary file and return file handle."""
+    if not os.path.isdir(TMPDIR):
+        os.mkdir(TMPDIR)
     fhandle = tempfile.mkstemp(prefix=TMPPREFIX,
                                dir=TMPDIR,
                                text=True)
@@ -30,9 +26,7 @@ def gentmpfile():
 
 
 def is_exec(command):
-    """
-    Test if a command is executable.
-    """
+    """Test if a command is executable."""
     def is_exe(fpath):
         return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
     fpath, _ = os.path.split(command)
@@ -50,7 +44,7 @@ def is_exec(command):
 
 def tisean(command, args, input_data=None, output_file=None):
     """
-    Run a tisean command.
+    Run a TISEAN command.
 
     Parameters
     ----------
@@ -62,7 +56,7 @@ def tisean(command, args, input_data=None, output_file=None):
     input_data : array or file path
         Input data for the tisean command (if necessary).
         (Can be a file path or an array of values).
-    output_data : file path, optional
+    output_file : file path, optional
         Output file path.
         If 'None' (default), return the results.
     """

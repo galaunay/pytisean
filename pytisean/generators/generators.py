@@ -1,5 +1,7 @@
-""" TISEAN generators wrappers
-"""
+# -*- coding: utf-8 -*-
+#!/usr/env python3
+
+""" TISEAN generators wrappers """
 
 from ..tiseanwrapper import tisean
 
@@ -17,7 +19,8 @@ def henon(pts_nmb, a=1.4, b=0.3, x0=0, y0=0, disc_transients=10000,
     """
     Return a Henon map.
 
-    Dynamical model :
+    Dynamical model
+    ---------------
     x(n+1) = 1- a*x(n)^2 + b*y(n)
     y(n+1) = x(n)
 
@@ -59,8 +62,8 @@ def ikeda(pts_nmb, a=0.4, b=6.0, c=0.9, Re0=0, Im0=0, disc_transients=10000,
     """
     Return a Ikeda map.
 
-
-    Dynamical model:
+    Dynamical model
+    ---------------
                                        i*b
     z(n+1) = 1 + c*z(n)* exp( i*a - ---------- )
                                     1 + |z(n)|
@@ -101,7 +104,8 @@ def lorenz(pts_nmb, freq=100, dyn_noise=0, rho=28., sigma=10., beta=8./3.,
     """
     Return a Lorenz map.
 
-    Dynamical model:
+    Dynamical model
+    ---------------
     dx/dt = sigma*(y - x)
     dy/dt = x*(rho - z) - y
     dz/dt = x*y - beta*z
@@ -145,7 +149,8 @@ def arrun(coefficients, pts_nmb, order=None, seed=0, disc_transients=10000,
     """
     Run an autoregressive model from given ai coefficients.
 
-    Model:
+    Model
+    -----
     xn = a1*xn-1 + ... + ap*xn-p + noise.
 
     Parameters
