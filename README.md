@@ -14,7 +14,7 @@ The Tisean binaries need to be on your $PATH.
 
 ## Basic usage
 ### Available commands
-Available commands are for the moment: 
+Available commands are for the moment:
 - Generators (5/5):
   - `henon`
   - `ikeda`
@@ -38,5 +38,6 @@ Available commands are for the moment:
 - Surrogate (0/5):
 - Spike trains (0/6):
 - XTisean (0/4):
+
 ### Tiseanwrapper
 Even without dedicated python functions, `tiseanwrapper.tisean()` allow to launch any Tisean command in a lower level.
