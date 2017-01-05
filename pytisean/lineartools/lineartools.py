@@ -35,7 +35,7 @@ def corr(data, nmb_corr=100, std_norm=True, nmb_data_to_use=None,
         Number of columns to be read if 'time_serie' is a file path
         (Default to 1).
     output_file : string
-        Output fiel path.
+        Output field path.
         If None, do not write a file, just return the map.
     verbose : integer
         Verbosity level (defaul to 0 for only fatal errors.
