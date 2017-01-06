@@ -114,7 +114,7 @@ def mutual(data, maximum_delay=20, box_nmb=16, nmb_data_to_use=None,
         args += "-l{}".format(nmb_data_to_use)
     args = args.split(" ")
     # run command
-    res, msg = tisean('delay', args, input_data=data, output_file=output_file)
+    res, msg = tisean('mutual', args, input_data=data, output_file=output_file)
     # return
     print(msg)
     if not output_file:
