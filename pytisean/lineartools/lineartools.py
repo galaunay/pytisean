@@ -110,3 +110,71 @@ def armodel(data, dim=1, order=5, it_steps=None, nmb_data_to_use=None,
     print(msg)
     if not output_file:
         return res
+
+
+def pca(data, dim=1, delay=1, output='eigenvalues', modes_to_keep=None,
+        nmb_data_to_use=None, ignored_row=0, col_to_read=1, output_file=None,
+        verbose=0):
+    """
+    Performs a global principal component analysis (PCA).
+    It gives the eigenvalues of the covariance matrix and depending
+    on the 'output' value, eigenvectors, projections...
+    of the input time series.
+
+    Parameters
+    ----------
+    data : array or string
+        Data, can de an array or a filename.
+    dim : integer
+        Embedding dimension
+        (Should be at least '2*modes_to_keep' for filtering)
+    delay : integer
+        Time delay
+    output : string in {'eigenvalues', 'eigenvectors', 'transformation',
+                        'truncated'}
+       Output values : 'eigenvalues': Just write the eigenvalues
+                       'eigenvectors': Write the eigenvectors
+                       'transformation': Transformation of the time series
+                       onto the eigenvector basis.
+                       'truncated': Project the time series onto the first -q
+                       eigenvectors (global noise reduction).
+    modes_to_keep : integer
+        Number of modes to keep (for 'output'='transformation' or ' truncated')
+        Default to all (should be at least the signal embedding dimension).
+    nmb_data_to_use : integer
+        Number of data points to use (default to everything).
+    ignored_row : integer
+        Number of file rows to ignore if 'time_serie' is a file path
+        (Default to 0).
+    col_to_read : integer
+        Number of columns to be read if 'time_serie' is a file path
+        (Default to 1).
+    output_file : string
+        Output fiel path.
+        If None, do not write a file, just return the map.
+    verbose : integer
+        Verbosity level (defaul to 0 for only fatal errors.
+
+    Returns
+    -------
+    Depends on the 'output' value.
+
+    """
+    # prepare
+    arg_W = {'eigenvalues': 0, 'eigenvectors': 1, 'transformation': 2,
+             'truncated': 3}
+    # prepare arguments
+    args = "-x{} -c{} -m{},{} -d{} -W{} -V{}"\
+           .format(ignored_row, col_to_read, 2, dim, delay, arg_W[output],
+                   verbose)
+    if nmb_data_to_use is not None:
+        args += " -l{}".format(nmb_data_to_use)
+    if modes_to_keep is not None:
+        args += " -q{}".format(modes_to_keep)
+    args = args.split(" ")
+    # run command
+    res, msg = tisean('pca', args, input_data=data, output_file=output_file)
+    # return
+    print(msg)
+    if not output_file:
+        return res

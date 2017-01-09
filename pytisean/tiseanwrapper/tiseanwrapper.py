@@ -87,6 +87,7 @@ def tisean(command, args, input_data=None, output_file=None):
         raise Exception("'{}' command not on path".format(command))
     # add paths to args
     args += ["-o", "{}".format(fullname_out)]
+    print(args)
     if is_input_data:
         args += [fullname_in]
     # Need cleanup temporary files even if the command fails

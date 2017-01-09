@@ -121,16 +121,82 @@ def mutual(data, maximum_delay=20, box_nmb=16, nmb_data_to_use=None,
         return res
 
 def poincare():
-    pass
+    raise Exception("Not implemented yet")
 
 def extrema():
-    pass
+    raise Exception("Not implemented yet")
 
 def upo():
-    pass
+    raise Exception("Not implemented yet")
 
 def upoembed():
-    pass
+    raise Exception("Not implemented yet")
 
-def false_nearest():
-    pass
+
+def false_nearest(data, min_dim=1, max_dim=5, comp_nmb=1, delay=1, ratio=2.0,
+                  theiler_wind=0, nmb_data_to_use=None, ignored_row=0,
+                  col_to_read=1, output_file=None, verbose=0):
+    """
+    Compute the false nearests fraction.
+
+    Parameters
+    ----------
+    data : array or string
+        data, can de an array or a filename.
+    min_dim : integer
+        Minimal embedding dimension (Default to 1)
+    max_dim : integer
+        Maximale embedding dimension (Default to 5)
+    comp_nmb : integer
+        Number of components (Default to 1)
+    delay : integer
+        Delay (Default to 1)
+    ratio : number
+        Ratio factor (Default to 2.0)
+    theiler_wind : integer
+        Theiler window (Default to 0)
+    nmb_data_to_use : integer
+        Number of data points to use (default to everything).
+    ignored_row : integer
+        Number of file rows to ignore if 'time_serie' is a file path
+        (Default to 0).
+    col_to_read : integer
+        Number of columns to be read if 'time_serie' is a file path
+        (Default to 1).
+    output_file : string
+        Output fiel path.
+        If None, do not write a file, just return the map.
+    verbose : integer
+        Verbosity level (defaul to 0 for only fatal errors.
+
+    Returns
+    -------
+    res : array
+        first column: the dimension (counted like shown above)
+        second column: the fraction of false nearest neighbors
+        third column: the average size of the neighborhood
+        fourth column: the average of the squared size of the neighborhood
+
+    Note
+    ----
+    We implemented a new second criterion.
+    If the distance to the nearest neighbor becomes smaller than the standard
+    deviation of the data devided by the threshold, the point is omitted. This
+    turns out to be a stricter criterion, but can show the effect that for
+    increasing embedding dimensions the number of points which enter the
+    statistics is so small, that the whole statistics is meanlingless.
+    Be aware of this!
+    """
+    # prepare arguments
+    args = "-x{} -c{} -m{} -M{},{} -d{} -f{} -t{} -V{}" \
+           .format(ignored_row, col_to_read, min_dim, comp_nmb, max_dim,
+                   delay, ratio, theiler_wind, verbose)
+    if nmb_data_to_use is not None:
+        args += " -l{}".format(nmb_data_to_use)
+    args = args.split(" ")
+    # run command
+    res, msg = tisean('false_nearest', args, input_data=data, output_file=output_file)
+    # return
+    print(msg)
+    if not output_file:
+        return res
