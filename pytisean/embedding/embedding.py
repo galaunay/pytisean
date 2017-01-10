@@ -148,7 +148,7 @@ def false_nearest(data, min_dim=1, max_dim=5, comp_nmb=1, delay=1, ratio=2.0,
     max_dim : integer
         Maximale embedding dimension (Default to 5)
     comp_nmb : integer
-        Number of components (Default to 1)
+        Number of components read from file (Default to 1)
     delay : integer
         Delay (Default to 1)
     ratio : number
