@@ -4,7 +4,7 @@ Tisean library python wrapper.
 ## Introduction
 High-level python functions to interact with the [Tisean](http://www.mpipks-dresden.mpg.de/~tisean/Tisean_3.0.1/index.html) library.
 Those functions can work with file, if you specify the input and ouput files (like Tisean does), or whith python data.
-Some Tisean commands are still not avalaible (see [Available commands](#available-commands)).
+Some (many) Tisean commands are still not avalaible (see [Available commands](#available-commands)).
 
 ## Installation
 ### Tisean library
@@ -21,15 +21,19 @@ Available commands are for the moment:
   - `lorenz`
   - `ar-run`
   - `makenoise`
-- Linear tools (2/10):
+- Linear tools (3/10):
   - `ar-run`
   - `corr`
+  - `pca`
 - Utilities (1/5):
   - `histogram`
-- Stationarity (0/3):
+- Stationarity (2/3):
+  - `recurr`
+  - `stop`
 - Embedding (2/7):
   - `delay`
   - `mutual`
+  - `flase_nearest`
 - Prediction (0/11):
 - Noise reduction (0/4):
 - Dimension and entropy (0/7):
