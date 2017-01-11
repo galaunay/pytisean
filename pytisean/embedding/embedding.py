@@ -68,7 +68,7 @@ def delay(data, dimension=2, vector_format=None, vector_delay=1, delays=None,
         return res
 
 
-def mutual(data, maximum_delay=20, box_nmb=16, nmb_data_to_use=None,
+def mutual(data, max_delay=20, box_nmb=16, nmb_data_to_use=None,
            ignored_row=0, col_to_read=1, output_file=None, verbose=0):
     """
     Estimates the time delayed mutual information of the data.
@@ -80,7 +80,7 @@ def mutual(data, maximum_delay=20, box_nmb=16, nmb_data_to_use=None,
     ----------
     data : array or string
         data, can de an array or a filename.
-    maximum_delay : integer
+    max_delay : integer
         Maximal time delay (default to 20).
     box_nmb : integer
         Number of boxes for the partition.
@@ -109,7 +109,7 @@ def mutual(data, maximum_delay=20, box_nmb=16, nmb_data_to_use=None,
     """
     # prepare arguments
     args = "-b{} -D{} -x{} -c{} -V{}" \
-           .format(box_nmb, maximum_delay, ignored_row, col_to_read, verbose)
+           .format(box_nmb, max_delay, ignored_row, col_to_read, verbose)
     if nmb_data_to_use is not None:
         args += "-l{}".format(nmb_data_to_use)
     args = args.split(" ")

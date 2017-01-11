@@ -165,7 +165,7 @@ def pca(data, dim=1, delay=1, output='eigenvalues', modes_to_keep=None,
              'truncated': 3}
     # prepare arguments
     args = "-x{} -c{} -m{},{} -d{} -W{} -V{}"\
-           .format(ignored_row, col_to_read, 2, dim, delay, arg_W[output],
+           .format(ignored_row, col_to_read, col_to_read, dim, delay, arg_W[output],
                    verbose)
     if nmb_data_to_use is not None:
         args += " -l{}".format(nmb_data_to_use)
