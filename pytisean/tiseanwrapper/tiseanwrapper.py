@@ -104,10 +104,10 @@ def tisean(command, args, input_data=None, output_file=None):
         # Check if tisean error occured
         err_string = err_bytes.decode('utf-8')
         if len(err_string) != 0:
-            raise Exception("\n=== TISEAN ERROR ===\n"
-                            + "=== Launched command:\n    {}\n"
-                            .format(" ".join([command] + args))
-                            + "=== Tisean said: \n    " + err_string)
+            print("\n=== TISEAN MESSAGE ===\n"
+                  + "=== Launched command:\n    {}\n"
+                  .format(" ".join([command] + args))
+                  + "=== Tisean said: \n    " + err_string)
         # Read the temporary 'out' file
         if not is_output_file:
             res = np.loadtxt(fullname_out)

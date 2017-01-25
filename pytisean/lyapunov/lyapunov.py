@@ -28,6 +28,7 @@ def lyap_k(data, min_dim=2, max_dim=2, delay=1, min_neighbors=None,
         Minimal embedding dimension to use (default 2).
     max_dim : integer
         Maximal embedding dimension to use (default 2).
+        Will make loops with different values of m between 'min_dim' and 'max_dim'
     delay : integer
         Delay to use (default 1).
     min_neighbors : integer
@@ -38,6 +39,7 @@ def lyap_k(data, min_dim=2, max_dim=2, delay=1, min_neighbors=None,
         (default is data interval / 100).
     nmb_scales : integer
         Number of length scales to use (default 5).
+        Will make loop with different values of epsilon, the neighbour radius.
     nmb_ref_points : integer
         Number of reference points to use (default to all)
     nmb_it : integer
@@ -64,6 +66,8 @@ def lyap_k(data, min_dim=2, max_dim=2, delay=1, min_neighbors=None,
         Iterations numbers.
     Lyap : number
         Lyapunov exponents.
+        Results for loops over epsilon on dimension are concatenated in this
+        array.
     nmb_points : integer
         Number of points for which a neighborhodd with enough points was found.
 
