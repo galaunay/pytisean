@@ -4,6 +4,8 @@
 """ TISEAN stationarity tools wrappers
 """
 
+import warnings
+
 from ..tiseanwrapper import tisean
 
 
@@ -107,7 +109,7 @@ def stp(data, delay=1, dim=2, time_resolution=1, time_steps=100,
     -------
     ?
     """
-    raise Exception("The command 'stp' seems to have some trouble parsing "
+    warnings.warn("The command 'stp' seems to have some trouble parsing "
                     "path with complex characters")
     # prepare arguments
     args = "-d{} -m{} -#{} -t{} -%{} -x{} -c{} -V{}"\
