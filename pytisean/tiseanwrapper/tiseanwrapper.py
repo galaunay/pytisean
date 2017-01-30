@@ -42,7 +42,7 @@ def is_exec(command):
     return False
 
 
-def tisean(command, args, input_data=None, output_file=None):
+def tisean(command, args, input_data=None, output_file=None, output_file_ext=None):
     """
     Run a TISEAN command.
 
@@ -59,6 +59,9 @@ def tisean(command, args, input_data=None, output_file=None):
     output_file : file path, optional
         Output file path.
         If 'None' (default), return the results.
+    output_file_ext : list of string, optional
+        In case the tisean return more than one file,
+        the parameter specify the extension to look for.
     """
     # Return values if something fails
     res = None
@@ -104,18 +107,27 @@ def tisean(command, args, input_data=None, output_file=None):
         # Check if tisean error occured
         err_string = err_bytes.decode('utf-8')
         if len(err_string) != 0:
-            print("\n=== TISEAN MESSAGE ===\n"
-                  + "=== Launched command:\n    {}\n"
-                  .format(" ".join([command] + args))
-                  + "=== Tisean said: \n    " + err_string)
+            print("\n=== TISEAN MESSAGE ===\n" +
+                  "=== Launched command:\n    {}\n"
+                  .format(" ".join([command] + args)) +
+                  "=== Tisean said: \n    " + err_string)
         # Read the temporary 'out' file
         if not is_output_file:
-            res = np.loadtxt(fullname_out)
+            if output_file_ext is not None:
+                res = []
+                for ext in output_file_ext:
+                    res.append(np.loadtxt(os.path.join(fullname_out, ext)))
+            else:
+                res = np.loadtxt(fullname_out)
     # Cleanup
     finally:
         if not is_input_file and is_input_data:
             os.remove(fullname_in)
         if not is_output_file:
-            os.remove(fullname_out)
+            if output_file_ext is not None:
+                for ext in output_file_ext:
+                    os.remove(os.path.join(fullname_out, ext))
+            else:
+                os.remove(fullname_out)
     # Return
     return res, err_string
