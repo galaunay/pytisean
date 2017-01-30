@@ -6,6 +6,14 @@
 
 from ..tiseanwrapper import tisean
 
+__author__ = "Gaby Launay"
+__copyright__ = "Gaby Launay 2017"
+__credits__ = "Rainer Hegger, Holger Kantz and Thomas Schreiber"
+__license__ = "MIT"
+__version__ = "0.1"
+__email__ = "gaby.launay@tutanota.com"
+__status__ = "Development"
+
 
 def delay(data, dimension=2, vector_format=None, vector_delay=1, delays=None,
           nmb_data_to_use=None, ignored_row=0, ignored_col=1, col_to_read=1,

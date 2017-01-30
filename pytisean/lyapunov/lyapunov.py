@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+#!/usr/env python3
+
 """ TISEAN Lyapunov exponents wrappers
 """
 
