@@ -34,6 +34,8 @@ def lyap_k(data, min_dim=2, max_dim=2, delay=1, min_neighbors=None,
         Will make loops with different values of m between 'min_dim' and 'max_dim'
     delay : integer
         Delay to use (default 1).
+        Note: this is not the delay associated with the vector delay.
+        This delay need to be small in order to follow the deviation increase.
     min_neighbors : integer
         Minimal length scale to search neighbors
         (default is data interval / 1000).
