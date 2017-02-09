@@ -128,14 +128,123 @@ def mutual(data, max_delay=20, box_nmb=16, nmb_data_to_use=None,
     if not output_file:
         return res
 
-def poincare():
-    raise Exception("Not implemented yet")
 
-def extrema():
-    raise Exception("Not implemented yet")
+def poincare(data, dim=2, delay=1, cross_comp=None, cross_dir=0,
+             cross_pos=None, nmb_data_to_use=None, ignored_row=0,
+             col_to_read=1, output_file=None, verbose=0):
+    """
+    Make a Poincaré section for time continuous scalar data sets along one of
+    the coordinates of the embedding vector.
+
+    Parameters
+    ----------
+    data : array or string
+        data, can de an array or a filename.
+    dim : integer
+        Embedding dimension (default 2).
+    delay :
+        Embedding delay (default 1).
+    cross_comp : integer
+        Component for the crossing (default to last).
+    cross_dir : Direction of the crossing
+        (0: from below, 1: from above).
+    cross_pos : Position for the crossing
+        (default to the data average).
+    nmb_data_to_use : integer
+        Number of data points to use (default to everything).
+    ignored_row : integer
+        Number of file rows to ignore if 'time_serie' is a file path
+        (Default to 0).
+    col_to_read : integer
+        Number of columns to be read if 'time_serie' is a file path
+        (Default to 1).
+    output_file : string
+        Output file path.
+        If None, do not write a file, just return the map.
+    verbose : integer
+        Verbosity level (defaul to 0 for only fatal errors.
+
+    """
+    # prepare arguments
+    args = "-x{} -c{} -m{} -d{} -C{} -V{}" \
+           .format(ignored_row, col_to_read, dim, delay, cross_dir,
+                   verbose)
+    if nmb_data_to_use is not None:
+        args += " -l{}".format(nmb_data_to_use)
+    if cross_comp is not None:
+        args += " -q{}".format(cross_comp)
+    if cross_pos is not None:
+        args += " -a{}".format(cross_pos)
+    args = args.split(" ")
+    # run command
+    res, msg = tisean('poincare', args, input_data=data,
+                      output_file=output_file)
+    # return
+    print(msg)
+    if not output_file:
+        return res
+
+
+def extrema(data, nmb_comp=2, comp=1, extrema="maxima",
+            delta_t_min=0., nmb_data_to_use=None, ignored_row=0,
+            col_to_read=None, output_file=None, verbose=0):
+    """
+    Determines the maxima (minima) of one component of a possibly multivariate
+    time series. This corresponds to a Poincaré section at the zeros of the
+    derivative. To get a better estimate of the extremum, a quadratic
+    interpolation is done.
+
+    Parameters
+    ----------
+    data : array or string
+        data, can de an array or a filename.
+    nmb_comp : integer
+        Number of components (default to 1).
+    comp : integer
+        Which component to maximine (or minimize).
+        (default 1)
+    extrema : string in {"minima", "maxima"}
+        Determine if minima or maxima should be computed.
+        (default to "maxima")
+    delta_t_min : positive float
+        Minimal time required between two extrema.
+    nmb_data_to_use : integer
+        Number of data points to use (default to everything).
+    ignored_row : integer
+        Number of file rows to ignore if 'time_serie' is a file path
+        (Default to 0).
+    col_to_read : integer
+        Number of columns to be read if 'time_serie' is a file path
+        (Default 1..nmb_comp).
+    output_file : string
+        Output file path.
+        If None, do not write a file, just return the map.
+    verbose : integer
+        Verbosity level (defaul to 0 for only fatal errors.
+
+    """
+    # prepare arguments
+    args = "-x{} -m{} -w{} -t{} -V{}" \
+           .format(ignored_row, nmb_comp, comp, delta_t_min, verbose)
+    if nmb_data_to_use is not None:
+        args += " -l{}".format(nmb_data_to_use)
+    if col_to_read is not None:
+        args += " -c{}".format(col_to_read)
+    if extrema == "minima":
+        args += " -z"
+    args = args.split(" ")
+    # run command
+    res, msg = tisean('extrema', args, input_data=data,
+                      output_file=output_file)
+    # return
+    print(msg)
+    if not output_file:
+        return res
+
 
 def upo():
     raise Exception("Not implemented yet")
+
 
 def upoembed():
     raise Exception("Not implemented yet")
@@ -203,7 +312,8 @@ def false_nearest(data, min_dim=1, max_dim=5, comp_nmb=1, delay=1, ratio=2.0,
         args += " -l{}".format(nmb_data_to_use)
     args = args.split(" ")
     # run command
-    res, msg = tisean('false_nearest', args, input_data=data, output_file=output_file)
+    res, msg = tisean('false_nearest', args, input_data=data,
+                      output_file=output_file)
     # return
     print(msg)
     if not output_file:
