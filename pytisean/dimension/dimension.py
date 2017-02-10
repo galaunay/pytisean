@@ -86,6 +86,7 @@ def d2(data, delay=1, min_dim=1, max_dim=10, theiler_wind=0,
     # run command
     res, msg = tisean('d2', args, input_data=data, output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res

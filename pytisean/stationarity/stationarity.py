@@ -67,7 +67,8 @@ def recurr(data, compo_nmb=1, dim=2, delay=1, neigh_size=None,
     # run command
     res, msg = tisean('recurr', args, input_data=data, output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res
 
@@ -121,6 +122,7 @@ def stp(data, delay=1, dim=2, time_resolution=1, time_steps=100,
     # run command
     res, msg = tisean('stp', args, input_data=data, output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res

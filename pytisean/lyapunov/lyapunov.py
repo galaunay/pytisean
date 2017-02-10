@@ -97,7 +97,8 @@ def lyap_k(data, min_dim=2, max_dim=2, delay=1, min_neighbors=None,
     # run command
     res, msg = tisean('lyap_k', args, input_data=data, output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res[:, 0], res[:, 1], res[:, 2]
 
@@ -162,6 +163,7 @@ def lyap_r(data, dim=2, delay=1, ignor_window=0, min_neighbors=None,
     # run command
     res, msg = tisean('lyap_r', args, input_data=data, output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res[:, 0], res[:, 1]

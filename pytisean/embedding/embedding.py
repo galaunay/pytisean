@@ -71,7 +71,8 @@ def delay(data, dimension=2, vector_format=None, vector_delay=1, delays=None,
     # run command
     res, msg = tisean('delay', args, input_data=data, output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res
 
@@ -124,7 +125,8 @@ def mutual(data, max_delay=20, box_nmb=16, nmb_data_to_use=None,
     # run command
     res, msg = tisean('mutual', args, input_data=data, output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res
 
@@ -180,7 +182,8 @@ def poincare(data, dim=2, delay=1, cross_comp=None, cross_dir=0,
     res, msg = tisean('poincare', args, input_data=data,
                       output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res
 
@@ -237,7 +240,8 @@ def extrema(data, nmb_comp=2, comp=1, extrema="maxima",
     res, msg = tisean('extrema', args, input_data=data,
                       output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res
 
@@ -315,6 +319,7 @@ def false_nearest(data, min_dim=1, max_dim=5, comp_nmb=1, delay=1, ratio=2.0,
     res, msg = tisean('false_nearest', args, input_data=data,
                       output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res

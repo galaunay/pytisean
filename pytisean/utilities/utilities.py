@@ -52,7 +52,8 @@ def histogram(data, bins=50, nmb_data_to_use=None, ignored_row=0,
     res, msg = tisean('histogram', args, input_data=data,
                       output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res
 

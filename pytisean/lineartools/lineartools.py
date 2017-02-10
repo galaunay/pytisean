@@ -56,7 +56,8 @@ def corr(data, nmb_corr=100, std_norm=True, nmb_data_to_use=None,
     # run command
     res, msg = tisean('corr', args, input_data=data, output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res
 
@@ -107,7 +108,8 @@ def armodel(data, dim=1, order=5, it_steps=None, nmb_data_to_use=None,
     # run command
     res, msg = tisean('ar-model', args, input_data=data, output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res
 
@@ -175,6 +177,7 @@ def pca(data, dim=1, delay=1, output='eigenvalues', modes_to_keep=None,
     # run command
     res, msg = tisean('pca', args, input_data=data, output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res

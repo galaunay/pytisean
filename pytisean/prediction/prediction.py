@@ -32,7 +32,7 @@ def lzo_test(data, dim=2, delay=1, nmb_comp=1, nmb_error=None,
         Embedding dimension (default to 2).
     delay : integer
         Embedding delay (default to 1).
-        Should not necessarily be the embedding dimension.
+        Should be the embedding delay (used to reconstruct the attractor).
     nmb_comp : integer
         Number of components of the time serie (default to 1).
     nmb_error : integer
@@ -93,6 +93,7 @@ def lzo_test(data, dim=2, delay=1, nmb_comp=1, nmb_error=None,
     res, msg = tisean('lzo-test', args, input_data=data,
                       output_file=output_file)
     # return
-    print(msg)
+    if msg != "":
+        print(msg)
     if not output_file:
         return res
