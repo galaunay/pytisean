@@ -1,1 +1,1 @@
-from .lineartools import corr, armodel, pca
+from .lineartools import corr, ar_model, ar_run, pca

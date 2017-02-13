@@ -62,7 +62,7 @@ def corr(data, nmb_corr=100, std_norm=True, nmb_data_to_use=None,
         return res
 
 
-def armodel(data, dim=1, order=5, it_steps=None, nmb_data_to_use=None,
+def ar_model(data, dim=1, order=5, it_steps=None, nmb_data_to_use=None,
             ignored_row=0, col_to_read=1, output_file=None, verbose=0):
     """
     Fits (by means of least squares) a simple autoregressive (AR) model to
@@ -107,6 +107,49 @@ def armodel(data, dim=1, order=5, it_steps=None, nmb_data_to_use=None,
     args = args.split(" ")
     # run command
     res, msg = tisean('ar-model', args, input_data=data, output_file=output_file)
+    # return
+    if msg != "":
+        print(msg)
+    if not output_file:
+        return res
+
+
+def ar_run(data, nmb_it, order=None, seed=None, nmb_trans=10000,
+            output_file=None, verbose=0):
+    """
+    Compute iterates of an autoregressive model.
+
+    Parameters
+    ----------
+    nmb_it : integer
+        Number of iterations.
+    order : integer
+        Order of the AR-model (default is determined by input)
+    seed : integer
+        Seed for random numbers.
+    nmb_trans : integer
+        Number of discarted transients (default to 10000).
+    output_file : string
+        Output file path.
+        If None, do not write a file, just return the map.
+    verbose : integer
+        Verbosity level (defaul to 0 for only fatal errors.
+
+    Returns
+    -------
+    Successice values of the AR-model
+    """
+    # prepare arguments
+    args = "-l{} -x{} -V{}" \
+           .format(nmb_it, nmb_trans, verbose)
+    if order is not None:
+        args += " -p{}".format(order)
+    if seed is not None:
+        args += " -I{}".format(seed)
+    args = args.split(" ")
+    # run command
+    res, msg = tisean('ar-run', args, input_data=data,
+                      output_file=output_file)
     # return
     if msg != "":
         print(msg)

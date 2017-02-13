@@ -30,6 +30,7 @@ def lzo_test(data, dim=2, delay=1, nmb_comp=1, nmb_error=None,
         data, can de an array or a filename.
     dim : integer
         Embedding dimension (default to 2).
+        Error prediction should converge with increasing dimension.
     delay : integer
         Embedding delay (default to 1).
         Should be the embedding delay (used to reconstruct the attractor).
