@@ -3,3 +3,4 @@
 dist
 pytisean.egg-info
 build
+flycheck_*.py

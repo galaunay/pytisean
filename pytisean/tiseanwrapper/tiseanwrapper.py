@@ -3,17 +3,22 @@
 
 """ Wrapper to TISEAN binaries. """
 
-import tempfile
-import subprocess
 import os
+import subprocess
+import tempfile
+from tempfile import gettempdir
+
 import numpy as np
 
 
 # For temporary files
-TMPDIR = r'/tmp/pytisean/'
+TMPDIR = os.path.join(gettempdir(), 'pytisean/')
 TMPPREFIX = 'pytisean_temp_'
 if not os.path.isdir(TMPDIR):
-    os.makedirs(TMPDIR)
+    try:
+        os.makedirs(TMPDIR)
+    except FileExistError:      # In case of parallel processes
+        pass
 
 def gentmpfile():
     """Generate temporary file and return file handle."""
