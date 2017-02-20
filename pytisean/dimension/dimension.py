@@ -15,7 +15,7 @@ __email__ = "gaby.launay@tutanota.com"
 __status__ = "Development"
 
 
-def d2(data, delay=1, min_dim=1, max_dim=10, theiler_wind=0,
+def d2(data, delay=1, nmb_comp=1, max_dim=10, theiler_wind=0,
        min_len_scale=None, max_len_scale=None, nmb_eps=100,
        max_nmb_pair=1000, normalized_data=False, nmb_data_to_use=None,
        ignored_row=0, col_to_read=1, output_file=None, verbose=0):
@@ -29,8 +29,8 @@ def d2(data, delay=1, min_dim=1, max_dim=10, theiler_wind=0,
         data, can de an array or a filename.
     delay : integer
         Delay for the delay vector (defaul to 1)
-    min_dim : integer
-        Minimum embedding dimension (default to 1).
+    nmb_comp : integer
+        Number of components (default to 1).
     max_dim : integer
         Maximum embedding dimension (default to 10).
     theiler_wind : integer
@@ -72,7 +72,7 @@ def d2(data, delay=1, min_dim=1, max_dim=10, theiler_wind=0,
     """
     # prepare arguments
     args = "-x{} -d{} -M{},{} -c{} -t{} -#{} -N{} -V{}"\
-           .format(ignored_row, delay, min_dim, max_dim, col_to_read,
+           .format(ignored_row, delay, nmb_comp, max_dim, col_to_read,
                    theiler_wind, nmb_eps, max_nmb_pair, verbose)
     if nmb_data_to_use is not None:
         args += " -l{}".format(nmb_data_to_use)
