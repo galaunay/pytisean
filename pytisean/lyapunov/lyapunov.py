@@ -6,7 +6,6 @@
 
 from ..tiseanwrapper import tisean
 
-__author__ = "Gaby Launay"
 __copyright__ = "Gaby Launay 2017"
 __credits__ = "Rainer Hegger, Holger Kantz and Thomas Schreiber"
 __license__ = "MIT"
@@ -162,6 +161,93 @@ def lyap_r(data, dim=2, delay=1, ignor_window=0, min_neighbors=None,
     args = args.split(" ")
     # run command
     res, msg = tisean('lyap_r', args, input_data=data, output_file=output_file)
+    # return
+    if msg != "":
+        print(msg)
+    if not output_file:
+        return res[:, 0], res[:, 1]
+
+
+def lyap_spec(data, dim=2, nmb_comp=1, nmb_it=None, min_neigh=None,
+              incr_factor=1.2, nmb_neigh=30, inversion=False,
+              nmb_data_to_use=None, ignored_row=0, col_to_read=1,
+              output_file=None, verbose=0):
+    """
+    Give an estimation of the whole spectrum of Lyapunov exponents
+    for a given, possibly multivariate, time series.
+    Whole spectrum means: If d components are given and the embedding
+    dimension is m than m*d exponents will be determined.
+    The method is based on the work of Sano and Sawada.
+
+    Note
+    ----
+    As the delay cannot be specified in this function, for delay
+    different than one, you have to create a multivariate time series
+    with `delay` an then feed it to `lyap_spec`.
+
+    Parameters
+    ----------
+    data : array or string
+        Data, can de an array or a filename.
+    dim : integer
+        Embedding dimension to use (default 2).
+    nmb_comp : integer
+        Number of components (default to 1).
+    nmb_it : integer
+        Number of iterations (default to the number of points).
+    min_neigh : integer
+        Minimal length scale to search neighbors
+        (default is no minimal length scale).
+    incr_factor : number
+        Factor to increase the size of the neighborhood
+        if not enough neighbors were found (default to 1.2).
+    nmb_neigh : integer
+        Number of neighbors to use (default to 30).
+    inversion : boolean
+        If True, invert the order of the time series.
+        (Useful to identify spurious exponents).
+    nmb_data_to_use : integer
+        Number of data points to use (default to everything).
+    ignored_row : integer
+        Number of file rows to ignore if 'time_serie' is a file path
+        (Default to 0).
+    col_to_read : integer
+        Number of columns to be read if 'time_serie' is a file path
+        (Default to 1).
+    output_file : string
+        Output fiel path.
+        If None, do not write a file, just return the map.
+    verbose : integer
+        Verbosity level (defaul to 0 for only fatal errors.
+
+    Returns
+    -------
+    Lyap : number
+        Lyapunov exponents spectrum.
+        First column : iteration number
+        `dim*nmb_compo` following columns :
+            Lyapunov exponents in decreasing order
+        In comments :
+            Forecast error of the local linear model
+            Average neighborhood size used
+            Estimated Kaplan-York dimension
+    """
+    # prepare arguments
+    args = "-x{} -c{} -m{},{} -f{} -k{} -V{}" \
+           .format(ignored_row, col_to_read, nmb_comp, dim,
+                   incr_factor, nmb_neigh, verbose)
+    if nmb_data_to_use is not None:
+        args += " -l{}".format(nmb_data_to_use)
+    if min_neigh is not None:
+        args += " -r{}".format(min_neigh)
+    if nmb_it is not None:
+        args += " -n{}".format(nmb_it)
+    if inversion:
+        args += " -I"
+    args = args.split(" ")
+    # run command
+    res, msg = tisean('lyap_spec', args, input_data=data,
+                      output_file=output_file)
     # return
     if msg != "":
         print(msg)
