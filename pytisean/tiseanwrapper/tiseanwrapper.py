@@ -47,7 +47,8 @@ def is_exec(command):
     return False
 
 
-def tisean(command, args, input_data=None, output_file=None, output_file_ext=None):
+def tisean(command, args, input_data=None, output_file=None,
+           output_file_ext=None):
     """
     Run a TISEAN command.
 
@@ -93,6 +94,14 @@ def tisean(command, args, input_data=None, output_file=None, output_file_ext=Non
     # check if command exist
     if not is_exec(command):
         raise Exception("'{}' command not on path".format(command))
+    # Try to work on the local directory
+    # (because some tisean function does not handle very well full paths)
+    base_dir = os.getcwd()
+    if is_input_data:
+        if os.path.dirname(fullname_out) == os.path.dirname(fullname_in):
+            os.chdir(os.path.dirname(fullname_out))
+            fullname_out = os.path.basename(fullname_out)
+            fullname_in = os.path.basename(fullname_in)
     # add paths to args
     args += ["-o", "{}".format(fullname_out)]
     if is_input_data:
@@ -134,5 +143,7 @@ def tisean(command, args, input_data=None, output_file=None, output_file_ext=Non
                     os.remove(os.path.join(fullname_out, ext))
             else:
                 os.remove(fullname_out)
+    # Return to base directory
+    os.chdir(base_dir)
     # Return
     return res, err_string
