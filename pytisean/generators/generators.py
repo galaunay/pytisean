@@ -54,8 +54,7 @@ def henon(pts_nmb, a=1.4, b=0.3, x0=0, y0=0, disc_transients=10000,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def ikeda(pts_nmb, a=0.4, b=6.0, c=0.9, Re0=0, Im0=0, disc_transients=10000,
@@ -98,8 +97,7 @@ def ikeda(pts_nmb, a=0.4, b=6.0, c=0.9, Re0=0, Im0=0, disc_transients=10000,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 def lorenz(pts_nmb, freq=100, dyn_noise=0, rho=28., sigma=10., beta=8./3.,
            disc_transients=10000, output_file=None, verbose=0):
@@ -143,8 +141,7 @@ def lorenz(pts_nmb, freq=100, dyn_noise=0, rho=28., sigma=10., beta=8./3.,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def arrun(coefficients, pts_nmb, order=None, seed=0, disc_transients=10000,
@@ -191,8 +188,7 @@ def arrun(coefficients, pts_nmb, order=None, seed=0, disc_transients=10000,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def makenoise(time_serie, noise_level=5, abs_noise_level=None,
@@ -252,5 +248,4 @@ def makenoise(time_serie, noise_level=5, abs_noise_level=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res

@@ -69,8 +69,7 @@ def recurr(data, compo_nmb=1, dim=2, delay=1, neigh_size=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 def stp(data, delay=1, dim=2, time_resolution=1, time_steps=100,
         levels_frac=0.05, nmb_data_to_use=None, ignored_row=1, col_to_read=1,
@@ -112,6 +111,9 @@ def stp(data, delay=1, dim=2, time_resolution=1, time_steps=100,
     """
     warnings.warn("The command 'stp' seems to have some trouble parsing "
                     "path with complex characters")
+    # Check
+    if data is None:
+        raise Exception("'data' should not be none")
     # prepare arguments
     args = "-d{} -m{} -#{} -t{} -%{} -x{} -c{} -V{}"\
            .format(delay, dim, time_resolution, time_steps, levels_frac,
@@ -124,5 +126,4 @@ def stp(data, delay=1, dim=2, time_resolution=1, time_steps=100,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res

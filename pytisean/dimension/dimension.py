@@ -88,5 +88,4 @@ def d2(data, delay=1, nmb_comp=1, max_dim=10, theiler_wind=0,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res

@@ -58,8 +58,7 @@ def corr(data, nmb_corr=100, std_norm=True, nmb_data_to_use=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def ar_model(data, dim=1, order=5, it_steps=None, nmb_data_to_use=None,
@@ -110,8 +109,7 @@ def ar_model(data, dim=1, order=5, it_steps=None, nmb_data_to_use=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def ar_run(data, nmb_it, order=None, seed=None, nmb_trans=10000,
@@ -153,8 +151,7 @@ def ar_run(data, nmb_it, order=None, seed=None, nmb_trans=10000,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def pca(data, dim=1, delay=1, output='eigenvalues', modes_to_keep=None,
@@ -222,5 +219,4 @@ def pca(data, dim=1, delay=1, output='eigenvalues', modes_to_keep=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res

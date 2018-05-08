@@ -54,8 +54,7 @@ def histogram(data, bins=50, nmb_data_to_use=None, ignored_row=0,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def import_data_file(path):

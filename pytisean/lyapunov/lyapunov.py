@@ -98,8 +98,7 @@ def lyap_k(data, min_dim=2, max_dim=2, delay=1, min_neighbors=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res[:, 0], res[:, 1], res[:, 2]
+    return res[:, 0], res[:, 1], res[:, 2]
 
 
 def lyap_r(data, dim=2, delay=1, ignor_window=0, min_neighbors=None,
@@ -164,8 +163,7 @@ def lyap_r(data, dim=2, delay=1, ignor_window=0, min_neighbors=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res[:, 0], res[:, 1]
+    return res[:, 0], res[:, 1]
 
 
 def lyap_spec(data, dim=2, nmb_comp=1, nmb_it=None, min_neigh=None,
@@ -251,5 +249,4 @@ def lyap_spec(data, dim=2, nmb_comp=1, nmb_it=None, min_neigh=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res[:, 0], res[:, 1]
+    return res[:, 0], res[:, 1]

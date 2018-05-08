@@ -125,14 +125,13 @@ def tisean(command, args, input_data=None, output_file=None,
                   "=== Launched command:\n    {}\n"
                   .format(" ".join([command] + args)) +
                   "=== Tisean said: \n    " + err_string)
-        # Read the temporary 'out' file
-        if not is_output_file:
-            if output_file_ext is not None:
-                res = []
-                for ext in output_file_ext:
-                    res.append(np.loadtxt(os.path.join(fullname_out, ext)))
-            else:
-                res = np.loadtxt(fullname_out)
+        # Read the 'out' file
+        if output_file_ext is not None:
+            res = []
+            for ext in output_file_ext:
+                res.append(np.loadtxt(os.path.join(fullname_out, ext)))
+        else:
+            res = np.loadtxt(fullname_out)
     # Cleanup
     finally:
         if not is_input_file and is_input_data:

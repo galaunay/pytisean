@@ -96,5 +96,4 @@ def lzo_test(data, dim=2, delay=1, nmb_comp=1, nmb_error=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res

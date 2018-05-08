@@ -86,5 +86,4 @@ def ghkss(data, delay=1, nmb_comp=1, dim=5, dim_manifold=2,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res

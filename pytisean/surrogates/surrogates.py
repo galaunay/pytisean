@@ -76,8 +76,7 @@ def surrogates(data, nmb_surr=1, nmb_it=None, spec=False,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def endtoend(data, nmb_data_to_use=None, ignored_row=0,
@@ -129,8 +128,7 @@ def endtoend(data, nmb_data_to_use=None, ignored_row=0,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def predict(data, delay, dim, radius=None, rel_radius=None,
@@ -189,5 +187,4 @@ def predict(data, delay, dim, radius=None, rel_radius=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res

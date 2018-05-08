@@ -73,8 +73,7 @@ def delay(data, dimension=2, vector_format=None, vector_delay=1, delays=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def mutual(data, max_delay=20, box_nmb=16, nmb_data_to_use=None,
@@ -127,8 +126,7 @@ def mutual(data, max_delay=20, box_nmb=16, nmb_data_to_use=None,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def poincare(data, dim=2, delay=1, cross_comp=None, cross_dir=0,
@@ -184,8 +182,7 @@ def poincare(data, dim=2, delay=1, cross_comp=None, cross_dir=0,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def extrema(data, nmb_comp=2, comp=1, extrema="maxima",
@@ -242,8 +239,7 @@ def extrema(data, nmb_comp=2, comp=1, extrema="maxima",
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
 
 
 def upo():
@@ -321,5 +317,4 @@ def false_nearest(data, min_dim=1, max_dim=5, comp_nmb=1, delay=1, ratio=2.0,
     # return
     if msg != "":
         print(msg)
-    if not output_file:
-        return res
+    return res
