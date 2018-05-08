@@ -4,8 +4,8 @@
 import sys
 import pdb
 sys.path.append(r"/home/glaunay/.local/bin")
-import Pytisean.generators as ptg
-import Pytisean.embedding as pte
+import pytisean.generators as ptg
+import pytisean.embedding as pte
 import numpy as np
 
 if __name__ == "__main__":
