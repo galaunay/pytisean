@@ -3,8 +3,8 @@ Tisean library python wrapper.
 
 ## Introduction
 High-level python functions to interact with the [Tisean](http://www.mpipks-dresden.mpg.de/~tisean/Tisean_3.0.1/index.html) library.
-Those functions can work with file, if you specify the input and ouput files (like Tisean does), or whith python data.
-Some (many) Tisean commands are still not avalaible (see [Available commands](#available-commands)).
+Those functions can work with file, if you specify the input and ouput files (like Tisean does), or with python data.
+Some Tisean commands are still not avalaible (see [Available commands](#available-commands)).
 
 ## Installation
 ### Tisean library
